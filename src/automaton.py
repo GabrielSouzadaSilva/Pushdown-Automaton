@@ -1,0 +1,4 @@
+
+
+class Automaton():
+    pass
