@@ -13,7 +13,7 @@ class FileHandling():
     def print(self):
         print(self.absolute_filename)
     
-    def get_raw_input(self):
+    def get_raw_input(self) -> dict:
         dict_input = dict()
         lines = self.file.readlines()
         
