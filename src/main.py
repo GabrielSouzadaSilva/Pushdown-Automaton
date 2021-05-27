@@ -9,10 +9,10 @@ def main():
 
     pre_process = PreProcessing(dict_raw)
     dict_components = pre_process.components
-    rules = pre_process.rules
+    list_rules = pre_process.rules
 
     print(dict_components)
-    print(rules)
+    print(list_rules)
 
 if __name__ == "__main__":
     main()

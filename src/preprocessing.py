@@ -68,19 +68,19 @@ class PreProcessing():
 
         rules = []
         dict_rules = dict()
-        keys = ["estado_origem", "símbolo_lido_palavra", "símbolo_lido_pilha",
-                "estado_final", "símbolo_escrito_pilha"]
+        keys = ["origin_state", "word_read_symbol", "stack_read_symbol",
+                "final_state", "stack_written_symbol"]
 
-        for iten in self.raw_rules:
+        for item in self.raw_rules:
             for i in range(5):
-                dict_rules[keys[i]] = self.format_str(iten)[i]
+                dict_rules[keys[i]] = self.format_str(item)[i]
             rules.append(dict_rules)
 
         """
         rules = []
 
-        for iten in self.raw_rules:
-            rules.append(self.format_str(iten))
+        for item in self.raw_rules:
+            rules.append(self.format_str(item))
         """
 
         return rules
