@@ -67,11 +67,11 @@ class PreProcessing():
     def get_rules(self) -> list:
 
         rules = []
-        dict_rules = dict()
         keys = ["origin_state", "word_read_symbol", "stack_read_symbol",
                 "final_state", "stack_written_symbol"]
 
         for item in self.raw_rules:
+            dict_rules = dict()
             for i in range(5):
                 dict_rules[keys[i]] = self.format_str(item)[i]
             rules.append(dict_rules)
