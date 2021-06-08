@@ -1,4 +1,25 @@
 import copy
+dictionary = {'Symbols': ['a', 'b'], 'States': ['q0', 'q1', 'qf'],
+              'Initial State': 'q0', 'Final States': ['qf'], 'Stack Symbols': ['A', 'B']}
+
+Rules = [{'origin_state': 'q0', 'word_read_symbol': 'a', 'stack_read_symbol': '-', 'final_state': 'q0', 'stack_written_symbol': 'B'},
+         {'origin_state': 'q0', 'word_read_symbol': 'b', 'stack_read_symbol': 'B', 'final_state': 'q1', 'stack_written_symbol': '-'},
+         {'origin_state': 'q0', 'word_read_symbol': '?', 'stack_read_symbol': '?', 'final_state': 'qf', 'stack_written_symbol': '-'},
+         {'origin_state': 'q1', 'word_read_symbol': 'b', 'stack_read_symbol': 'B', 'final_state': 'q1', 'stack_written_symbol': '-'},
+         {'origin_state': 'q1', 'word_read_symbol': '?', 'stack_read_symbol': '?', 'final_state': 'qf', 'stack_written_symbol': '-'}]
+
+dictionary2 = {'Symbols': ['a', 'b'], 'States': ['q0', 'q1', 'qf'],
+               'Initial State': 'q0', 'Final States': ['qf'], 'Stack Symbols': ['A', 'B']}
+
+Rules2 = [{'origin_state': 'q0', 'word_read_symbol': 'a', 'stack_read_symbol': '-', 'final_state': 'q0', 'stack_written_symbol': 'A'},
+          {'origin_state': 'q0', 'word_read_symbol': 'b', 'stack_read_symbol': '-', 'final_state': 'q0', 'stack_written_symbol': 'B'},
+          {'origin_state': 'q0', 'word_read_symbol': '-', 'stack_read_symbol': '-', 'final_state': 'q1', 'stack_written_symbol': '-'},
+          {'origin_state': 'q1', 'word_read_symbol': 'a', 'stack_read_symbol': 'A', 'final_state': 'q1', 'stack_written_symbol': '-'},
+          {'origin_state': 'q1', 'word_read_symbol': 'b', 'stack_read_symbol': 'B', 'final_state': 'q1', 'stack_written_symbol': '-'},
+          {'origin_state': 'q1', 'word_read_symbol': '?', 'stack_read_symbol': '?', 'final_state': 'qf', 'stack_written_symbol': '-'}]
+
+Word = 'aaabbb'
+Word2 = 'abaabaabaaba'
 
 
 class Stack:
@@ -38,26 +59,17 @@ class Automaton:
         self.word = word
         self.actual_state = self.initial
         self.rules = rules
-        
-        
+
         self.ch_count = 0
         self.fork = [{'ch_count': self.ch_count, 'state': self.actual_state, 'stack': self.stack, 'rule': None}]
         self.accepted = False
 
-
-            
-    
-    def execute(self):
-        
-        counter = 0
-        
+        self.runningWord(self.fork)
         while not self.accepted:
-            counter += 1
-            print('\nTry #'+str(counter), end='\n')
+            print('\n\nanother attempt')
             self.runningWord(self.fork)
             if len(self.fork) == 0:
                 break
-    
 
     def runningWord(self, data):
         self.ch_count = data[0]['ch_count']
@@ -84,6 +96,7 @@ class Automaton:
                     if (not self.stack.checkEmpty()) and (self.stack.peek() == rules[0]['stack_read_symbol']):
                         self.stack.readValue()
                     else:
+                        print('break?')
                         break
 
                 try:
@@ -116,14 +129,14 @@ class Automaton:
         self.fork.pop(0)
 
         if self.stack.checkEmpty() and (self.actual_state in self.final):
-            print('Accepted\n')
+            print('Accepted')
             self.accepted = True
         else:
-            print('Refused\n')
+            print('Refused')
 
     def checkRule(self, state, letter, rule=None) -> list:  # Checa se a letra se encaixa nas regras da gramática
 
-        if rule == None:
+        if rule is None:
             Rules_filtered = self.rules
         else:
             Rules_filtered = rule
@@ -149,6 +162,7 @@ class Automaton:
                 if rule['word_read_symbol'] == '-':
                     listRules.append(rule)
 
+        # print('                    list rules ', listRules)
         return listRules
 
     def GUI(self, letter, rule):
@@ -158,6 +172,7 @@ class Automaton:
         print('Pilha:', self.stack)
 
 
-
-
-
+Automaton(Word, dictionary, Rules)
+print('\n\n\n\nautomato 2\n\n')
+Automaton(Word2, dictionary2, Rules2)
+input("Press Enter to continue...")
