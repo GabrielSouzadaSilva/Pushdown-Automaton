@@ -37,7 +37,7 @@ class FileHandling():
     
     def verify_pattern(self) -> bool:
         comp_pattern = re.compile(r"\(\{([a-z],\s*)*[a-z]\},\s*\{(q(\d+|f),\s*)*q(\d+|f)\},\s*D,\s*q\d+,\s*\{(q(\d+|f),\s*)*q(\d+|f)\},\s*\{([A-Z],\s*)*[A-Z]\}\)")
-        rule_pattern = re.compile(r"q(\d+|f),\s*[a-z?],\s*[A-Z?-],\s*q(\d+|f),\s*[A-Z-]")
+        rule_pattern = re.compile(r"q(\d+|f),\s*[a-z?-],\s*[A-Z?-],\s*q(\d+|f),\s*[A-Z-]")
         
         if not re.match(comp_pattern, self.raw_input["Components"]):
             return False
