@@ -11,7 +11,7 @@ def main():
     dict_components = pre_process.components
     list_rules = pre_process.rules
 
-    print(dict_components)
+    print(dict_components, end='\n\n')
     print(list_rules)
 
 if __name__ == "__main__":
