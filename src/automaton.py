@@ -25,7 +25,7 @@ class Stack:
 
 
 class Automaton:
-    def __init__(self, word, grammar, rules):
+    def __init__(self, grammar, rules):
 
         self.stack = Stack()
 
@@ -35,7 +35,7 @@ class Automaton:
         self.final = grammar['Final States']
         self.stack_sym = grammar['Stack Symbols']
 
-        self.word = word
+        self.word = input("Insira a palavra desejada: ")
         self.actual_state = self.initial
         self.rules = rules
         
@@ -43,6 +43,9 @@ class Automaton:
         self.ch_count = 0
         self.fork = [{'ch_count': self.ch_count, 'state': self.actual_state, 'stack': self.stack, 'rule': None}]
         self.accepted = False
+        
+        
+        self.checkValidity()
 
 
             
@@ -57,6 +60,7 @@ class Automaton:
             self.runningWord(self.fork)
             if len(self.fork) == 0:
                 break
+        
     
 
     def runningWord(self, data):
@@ -64,14 +68,14 @@ class Automaton:
         self.actual_state = data[0]['state']
         self.stack = data[0]['stack']
 
-        # print('data   ', data)
+
         for letter in range(self.ch_count, len(self.word)+1):
 
             try:
-                # print('text rules ', self.actual_state, self.word[letter])
+
                 rules = self.checkRule(self.actual_state, self.word[letter], data[0]['rule'])
             except:
-                # print('text rules -1', self.actual_state, 'fim')
+
                 rules = self.checkRule(self.actual_state, '?', data[0]['rule'])
 
             if len(rules) > 0:
@@ -109,8 +113,7 @@ class Automaton:
                 self.ch_count += 1
 
             else:
-                # rules = self.checkRule(self.actual_state, '-', data[0]['rule'])
-                # print('else len_rules  ', rules)
+
                 break
 
         self.fork.pop(0)
@@ -135,7 +138,7 @@ class Automaton:
 
                 if letter == rule['word_read_symbol']:
                     if letter == '?':
-                        # print('check letter ?', self.ch_count, len(self.word))
+
                         if self.ch_count == len(self.word):  # checar se a apalavra foi processada
                             listRules.append(rule)
 
@@ -152,10 +155,20 @@ class Automaton:
         return listRules
 
     def GUI(self, letter, rule):
+        
         print(self.ch_count, end='   ')
         print('\u03B4('+rule['origin_state']+', ' + letter + ', ' + rule['stack_read_symbol'] + ') = (' +
               rule['final_state'] + ', ' + rule['stack_written_symbol'] + ')', end='  ')
         print('Pilha:', self.stack)
+        
+    
+    def checkValidity(self):
+        
+        for i in self.word:
+            if i not in self.symbols:
+                raise ValueError("Word doesn't exist in the grammar")
+    
+        
 
 
 
