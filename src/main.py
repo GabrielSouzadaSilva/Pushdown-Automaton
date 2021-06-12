@@ -1,9 +1,13 @@
 from file_handling import FileHandling
 from preprocessing import PreProcessing
 from automaton import Automaton
+from interface import Interface
 
 def main():
-    file_handler = FileHandling("../examples/02")
+    
+    file = Interface("../examples/").runningGui()
+    
+    file_handler = FileHandling("../examples/"+file)
     dict_raw = file_handler.get_raw_input()
     
     print(dict_raw)
@@ -14,10 +18,14 @@ def main():
     
 
     print(dict_components, end='\n\n')
-    print(list_rules)
+    for i in list_rules:
+        print(i)
+
     
-    word = 'abba'
-    Automaton(word, dict_components,list_rules).execute()
+
+    Automaton(dict_components,list_rules).execute()
+    
+    input("Press Enter")
 
 if __name__ == "__main__":
     main()
