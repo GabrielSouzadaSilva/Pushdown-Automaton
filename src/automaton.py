@@ -72,10 +72,8 @@ class Automaton:
         for letter in range(self.ch_count, len(self.word)+1):
 
             try:
-
                 rules = self.checkRule(self.actual_state, self.word[letter], data[0]['rule'])
             except:
-
                 rules = self.checkRule(self.actual_state, '?', data[0]['rule'])
 
             if len(rules) > 0:
@@ -90,13 +88,12 @@ class Automaton:
                     else:
                         break
 
-                try:
-                    if rules[0]['word_read_symbol'] == '-':
-                        self.GUI('-', rules[0])
-                    else:
-                        self.GUI(self.word[letter], rules[0])
-                except:
+                if rules[0]['word_read_symbol'] == '-':
+                    self.GUI('-', rules[0])
+                elif rules[0]['word_read_symbol'] == '?':
                     self.GUI('?', rules[0])
+                else:
+                    self.GUI(self.word[letter], rules[0])
 
                 if len(rules) > 1:
                     ch_count = copy.deepcopy(self.ch_count)
@@ -113,7 +110,6 @@ class Automaton:
                 self.ch_count += 1
 
             else:
-
                 break
 
         self.fork.pop(0)
@@ -142,7 +138,7 @@ class Automaton:
                         if self.ch_count == len(self.word):  # checar se a apalavra foi processada
                             listRules.append(rule)
 
-                    elif rule['stack_read_symbol'] == '?':  # and rule['stack_read_symbol'] == self.stack.peek():
+                    elif rule['stack_read_symbol'] == '?':
                         if self.stack.checkEmpty():
                             listRules.append(rule)
 
