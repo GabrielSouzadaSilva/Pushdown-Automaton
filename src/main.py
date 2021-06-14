@@ -7,10 +7,10 @@ def main():
     
     file = Interface("../examples/").runningGui()
     
+
     file_handler = FileHandling("../examples/"+file)
     dict_raw = file_handler.get_raw_input()
     
-    print(dict_raw)
 
     pre_process = PreProcessing(dict_raw)
     dict_components = pre_process.components
@@ -21,7 +21,6 @@ def main():
     for i in list_rules:
         print(i)
 
-    
 
     Automaton(dict_components,list_rules).execute()
     
