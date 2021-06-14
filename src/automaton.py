@@ -68,8 +68,8 @@ class Automaton:
         self.actual_state = data[0]['state']
         self.stack = data[0]['stack']
 
-
-        for letter in range(self.ch_count, len(self.word)+1):
+        letter = self.ch_count
+        while letter < len(self.word)+1:
 
             try:
                 rules = self.checkRule(self.actual_state, self.word[letter], data[0]['rule'])
@@ -77,6 +77,19 @@ class Automaton:
                 rules = self.checkRule(self.actual_state, '?', data[0]['rule'])
 
             if len(rules) > 0:
+                
+                if len(rules) > 1:
+                    ch_count = copy.deepcopy(self.ch_count)
+                    actual_state = copy.deepcopy(self.actual_state)
+                    stack = copy.deepcopy(self.stack)
+                    new_rules = copy.deepcopy(self.rules)
+                    new_rules.remove(rules[0])  # remover a regra já usada
+
+                    new_data = {'ch_count': ch_count,
+                                'state': actual_state, 'stack': stack,
+                                'rule': new_rules}
+                    self.fork.append(new_data)
+                    
                 self.actual_state = rules[0]['final_state']
 
                 if rules[0]['stack_written_symbol'] != '-':
@@ -94,20 +107,8 @@ class Automaton:
                     self.GUI('?', rules[0])
                 else:
                     self.GUI(self.word[letter], rules[0])
-
-                if len(rules) > 1:
-                    ch_count = copy.deepcopy(self.ch_count)
-                    actual_state = copy.deepcopy(self.actual_state)
-                    stack = copy.deepcopy(self.stack)
-                    new_rules = copy.deepcopy(self.rules)
-                    new_rules.remove(rules[0])  # remover a regra já usada
-
-                    new_data = {'ch_count': ch_count,
-                                'state': actual_state, 'stack': stack,
-                                'rule': new_rules}
-                    self.fork.append(new_data)
-
-                self.ch_count += 1
+                    letter += 1
+                    self.ch_count += 1
 
             else:
                 break
